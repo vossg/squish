@@ -26,6 +26,16 @@
 #ifndef SQUISH_H
 #define SQUISH_H
 
+#ifdef WIN32
+# ifdef squish_EXPORTS
+#  define SQUISH_DLLEXPORT __declspec(dllexport)
+# else
+#  define SQUISH_DLLEXPORT __declspec(dllimport)
+# endif
+#else
+#define SQUISH_DLLEXPORT
+#endif
+
 //! All squish API functions live in this namespace.
 namespace squish {
 
@@ -97,6 +107,7 @@ enum
 	rendered using alpha blending, this can significantly increase the 
 	perceived quality.
 */
+SQUISH_DLLEXPORT
 void Compress( u8 const* rgba, void* block, int flags );
 
 // -----------------------------------------------------------------------------
@@ -138,6 +149,7 @@ void Compress( u8 const* rgba, void* block, int flags );
 	rendered using alpha blending, this can significantly increase the 
 	perceived quality.
 */
+SQUISH_DLLEXPORT
 void CompressMasked( u8 const* rgba, int mask, void* block, int flags );
 
 // -----------------------------------------------------------------------------
@@ -157,6 +169,7 @@ void CompressMasked( u8 const* rgba, int mask, void* block, int flags );
 	however, DXT1 will be used by default if none is specified. All other flags 
 	are ignored.
 */
+SQUISH_DLLEXPORT
 void Decompress( u8* rgba, void const* block, int flags );
 
 // -----------------------------------------------------------------------------
@@ -175,6 +188,7 @@ void Decompress( u8* rgba, void const* block, int flags );
 	function supports arbitrary size images by allowing the outer blocks to
 	be only partially used.
 */
+SQUISH_DLLEXPORT
 int GetStorageRequirements( int width, int height, int flags );
 
 // -----------------------------------------------------------------------------
@@ -214,8 +228,10 @@ int GetStorageRequirements( int width, int height, int flags );
 	much memory is required in the compressed image, use
 	squish::GetStorageRequirements.
 */
+SQUISH_DLLEXPORT
 void CompressImage( u8 const* rgba, int width, int height, void* blocks, int flags );
 
+SQUISH_DLLEXPORT
 void CompressImage( u8 const* rgb, u8 a, int width, int height, void* blocks, int flags );
 
 // -----------------------------------------------------------------------------
@@ -239,6 +255,7 @@ void CompressImage( u8 const* rgb, u8 a, int width, int height, void* blocks, in
 
 	Internally this function calls squish::Decompress for each block.
 */
+SQUISH_DLLEXPORT
 void DecompressImage( u8* rgba, int width, int height, void const* blocks, int flags );
 
 // -----------------------------------------------------------------------------
